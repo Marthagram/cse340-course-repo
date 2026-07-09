@@ -1,12 +1,23 @@
 <%- include('partials/header') %>
 
 <main>
-        <h2>Upcoming Service Projects</h2>
-        <ul>
-            <li>Park Cleanup - Join us to clean up local parks and make them beautiful!</li>
-            <li>Food Drive - Help collect and distribute food to those in need.</li>
-            <li>Community Tutoring - Volunteer to tutor students in various subjects.</li>
-        </ul>
-    </main>
+
+  <h1><%= title %></h1>
+
+  <p>Here are a few of our projects:</p>
+
+
+
+    <ul>
+      <% service_projects.forEach(project => { %>
+        <li>
+          <strong><%= new Date(project.project_date).toDateString() %>: <%= project.title %>(<%= project.organization_name %>)</strong> 
+  
+        </li>
+      <% }); %>
+    </ul>
+
+  </main>
+
 
 <%- include('partials/footer') %>

@@ -4,7 +4,9 @@ import express from 'express';
 
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
+import {getAllOrganizationProjects } from './src/models/projects.js';
 const app = express();
+
 
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -47,9 +49,10 @@ app.get('/organizations', async (req, res) => {
 
 app.get('/projects', async (req, res) => {
     const title = 'Service Projects';
-    res.render('projects', { title });
-});
+    const service_projects = await getAllOrganizationProjects(); // default to empty so EJS never crashes
 
+    res.render('projects', { title, service_projects }); // always sends something
+});
 app.get('/categories', async (req, res) => {
     const title = 'Categories';
     res.render('categories', { title });
