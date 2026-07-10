@@ -5,6 +5,7 @@ import express from 'express';
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
 import {getAllOrganizationProjects } from './src/models/projects.js';
+import { getAllCategories } from './src/models/categories.js';
 const app = express();
 
 
@@ -50,12 +51,15 @@ app.get('/organizations', async (req, res) => {
 app.get('/projects', async (req, res) => {
     const title = 'Service Projects';
     const service_projects = await getAllOrganizationProjects(); // default to empty so EJS never crashes
-
+    console.log('Service Projects:', service_projects);
     res.render('projects', { title, service_projects }); // always sends something
 });
 app.get('/categories', async (req, res) => {
     const title = 'Categories';
-    res.render('categories', { title });
+    const categories = await getAllCategories();
+    console.log('Categories:', categories);
+    res.render('categories', { title, categories });
+   
 });
 // */
 
