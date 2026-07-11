@@ -6,9 +6,13 @@ const getAllOrganizations = async() => {
       FROM public.organization;
     `;
 
-    const result = await db.query(query);
-
-    return result.rows;
+     try {
+        const result = await db.query(query);
+        return result.rows;
+    } catch (error) {
+        console.error('Error in getAllOrganizations:', error.message);
+        return [];
+    }
 }
 
 export {getAllOrganizations}  
