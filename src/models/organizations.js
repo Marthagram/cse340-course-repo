@@ -15,4 +15,4 @@ const getAllOrganizations = async() => {
     }
 }
 
-export {getAllOrganizations}  
+export {getAllOrganizations};
