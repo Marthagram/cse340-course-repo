@@ -7,7 +7,9 @@ import { organizationsPage } from './controllers/organizations.js';
 import { homePageCrtler } from './controllers/index.js';
 import { categoriesPageCrtler } from './controllers/categories.js';
 import { projectsPageCrtler } from './controllers/projects.js';
+import { showOrganizationDetailsPage } from './controllers/organizations.js';
 import { testErrorPageCrtler } from './controllers/errors.js';
+
 
 
 
@@ -19,6 +21,8 @@ router.get('/organizations', organizationsPage);
 router.get('/', homePageCrtler);
 router.get('/categories', categoriesPageCrtler);
 router.get('/projects', projectsPageCrtler);
+// Route for organization details page
+router.get('/organization/:id', showOrganizationDetailsPage);
 
 // error-handling routes
 router.get('/test-error', testErrorPageCrtler);
