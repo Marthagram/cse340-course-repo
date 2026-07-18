@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+
+    <% if (service_project && service_project.project_id) { %>
+        <p>Description: <%= service_project.description %></p>
+        <p>Date: <%= service_project.project_date %></p>
+        <p>Location: <%= service_project.location %></p>
+        <p>Organization: 
+            <a href="/organization/<%= service_project.organization_id %>">
+                <%= service_project.organization_name %>
+            </a>
+        </p>
+
+        <ul>
+            <% projectCategories.forEach(category => { %>
+                <li>
+                    Category: <a href="/category/<%= category.project_id %>"><%= category.category_name %></a>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>Sorry, that service project could not be found.</p>
+        <p><a href="/projects">Back to upcoming projects</a></p>
+    <% } %>
+</main>
+
+<%- include('partials/footer') %>
