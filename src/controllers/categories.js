@@ -12,7 +12,7 @@ const categoriesPageCrtler = async (req, res) => {
 
 const showCategoryDetails = async (req, res) => {
  const categoryId = req.params.id;
-    const title = 'Specific Categories';
+    const title = 'Specific Category Projects';
     const categoryDetails = await getCategoryDetails(categoryId);
     const categoryProjects = await getCategoryProjects(categoryId)
     res.render('category', { title, categoryDetails, categoryProjects });
