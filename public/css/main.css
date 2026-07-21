@@ -33,10 +33,16 @@ main {
   padding: 20px;
 }
 
-a{
+a, button{
   color: #1e40af; /* Blue links for visibility */
   text-decoration: none;
   transition: color 0.2s ease;
+}
+
+button{
+  margin-top: 1em;
+  width: 80%;
+  
 }
 
 a:hover,
@@ -62,17 +68,20 @@ ul li, ol li {
   line-height: 2.5;
 }
 
-nav a {
+button, nav a{
+  padding: 0.5rem 0.75rem;
+}
+
+nav a{
   text-decoration: none;
   color: #ffffff; /* White on #0f172a = AAA contrast */
   font-weight: 600;
-  padding: 0.5rem 0.75rem;
   border-radius: 0.25rem;
   display: block;
   transition: background-color 0.2s ease;
 }
 
-nav a:hover,
+nav a:hover, button:hover,
 nav a:focus {
   color: #ffffff;
   background-color: #1e40af; /* #1e40af on white = 8.6:1 */
@@ -106,6 +115,41 @@ p {
   height: auto;
   margin: 2rem auto;
   border-radius: 0.5rem;
+}
+
+/* Form Page */
+label, input, textarea{
+  display: block;
+  width: 80%; 
+  padding: 11px;
+}
+
+/* Flash message styles */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert.warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+.alert.info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
 }
 
 /* --- Footer --- */
