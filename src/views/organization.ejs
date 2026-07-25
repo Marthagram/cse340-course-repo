@@ -2,6 +2,8 @@
 
 <main>
     <h1><%= title %></h1>
+
+    <h2><%= organizationDetails.name %></h2>
     
     <img src="/images/<%=organizationDetails.logo_filename %>" alt="<%= organizationDetails.name %> logo">
     <p> Description: <%= organizationDetails.description %></p>
@@ -17,7 +19,7 @@
         <% }); %>
         
     </ul>
-    <a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization</a>
+    <a href="/edit-organization/<%= organizationDetails.organization_id %>" class="other_pages_link">Edit Organization</a>
   
 </main>
 

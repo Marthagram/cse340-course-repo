@@ -18,6 +18,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   padding: 10px;
+  justify-content: center;
 }
 
 /* --- Layout Containers --- */
@@ -33,16 +34,10 @@ main {
   padding: 20px;
 }
 
-a, button{
+a {
   color: #1e40af; /* Blue links for visibility */
   text-decoration: none;
   transition: color 0.2s ease;
-}
-
-button{
-  margin-top: 1em;
-  width: 80%;
-  
 }
 
 a:hover,
@@ -50,6 +45,53 @@ a:focus {
   color: #1e3a8a; /* Darker blue on hover/focus */
   outline: 2px solid #93c5fd; /* Visible focus for keyboard nav */
   outline-offset: 2px;
+}
+
+/* --- Buttons --- */
+button {
+  display: inline-block;
+  color: #ffffff; /* White text */
+  background-color: #2563eb; /* Bright blue, matches your theme */
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 1em;
+  width: 80%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover,
+button:focus {
+  background-color: #1d4ed8; /* Darker blue on hover */
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+  transform: translateY(-1px);
+}
+
+/* --- Secondary Link Button --- */
+.other_pages_link {
+  display: inline-block;
+  color: #ffffff; /* White text for max contrast */
+  background-color: #f59e0b; /* Warm amber - pops against #f8fafc bg */
+  border: 2px solid #d97706; /* Darker amber border */
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.other_pages_link:hover,
+.other_pages_link:focus {
+  background-color: #d97706; /* Darker amber */
+  color: #ffffff;
+  outline: 2px solid #fcd34d; /* Gold focus ring */
+  outline-offset: 2px;
+  transform: translateY(-1px);
 }
 
 /* --- Navigation --- */
@@ -81,7 +123,7 @@ nav a{
   transition: background-color 0.2s ease;
 }
 
-nav a:hover, button:hover,
+nav a:hover,
 nav a:focus {
   color: #ffffff;
   background-color: #1e40af; /* #1e40af on white = 8.6:1 */
@@ -122,6 +164,14 @@ label, input, textarea{
   display: block;
   width: 80%; 
   padding: 11px;
+}
+
+.assignCategory{
+  display: flex;
+  
+}
+.assignCategory input{
+  margin-top: 10px;
 }
 
 /* Flash message styles */

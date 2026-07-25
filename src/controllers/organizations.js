@@ -42,7 +42,7 @@ const showOrganizationDetailsPage = async (req, res) => {
     const organizationId = req.params.id;
     const organizationDetails = await getOrganizationDetails(organizationId);
     const projects = await getProjectsByOrganizationId(organizationId);
-    const title = 'Organization Details';
+    const title = 'Organization Details: ';
 
     res.render('organization', {title, organizationDetails, projects});
 };
@@ -80,8 +80,9 @@ const showEditOrganizationForm = async (req, res) => {
     const organizationDetails = await getOrganizationDetails(organizationId);
     const title = 'Edit Organization';
 
-     res.render('edit-organization', { title, organizationDetails });
+    res.render('edit-organization', { title, organizationDetails });
 };
+
 const processEditOrganizationForm = async (req, res) => {
     const organizationId = req.params.id;
 

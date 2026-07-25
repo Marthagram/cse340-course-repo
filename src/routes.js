@@ -5,8 +5,8 @@ import express from 'express';
 // importing individual pages' controller logic
 import { organizationsPage, showOrganizationDetailsPage, showNewOrganizationForm, processNewOrganizationForm, organizationValidation, showEditOrganizationForm, processEditOrganizationForm } from './controllers/organizations.js';
 import { homePageCrtler } from './controllers/index.js';
-import { categoriesPageCrtler, showCategoryDetails } from './controllers/categories.js';
-import {showProjectsPage, showProjectDetailsPage} from './controllers/projects.js';
+import { categoriesPageCrtler, showCategoryDetails, showAssignCategoriesForm, processAssignCategoriesForm, categoryValidation, showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, processEditCategoryForm } from './controllers/categories.js';
+import {showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, projectEditValidation, showEditProjectForm, processEditProjectForm} from './controllers/projects.js';
 import { testErrorPageCrtler } from './controllers/errors.js';
 
 
@@ -19,34 +19,61 @@ import { testErrorPageCrtler } from './controllers/errors.js';
 
 const router = express.Router();
 
-router.get('/organizations', organizationsPage);
+// ===== HOME =====
 router.get('/', homePageCrtler);
-router.get('/categories', categoriesPageCrtler);
-router.get('/projects', showProjectsPage);
-// Route for organization details page
+
+// ===== ORGANIZATIONS =====
+// show all organizations page
+router.get('/organizations', organizationsPage);
+
+// show a specific organization page
 router.get('/organization/:id', showOrganizationDetailsPage);
 
-// Route for edit-organization page
-router.get('/edit-organization/:id', showEditOrganizationForm);
-
-// Route for project details page
-router.get('/project/:id', showProjectDetailsPage);
-
-// Route for project details page
-router.get('/category/:id', showCategoryDetails);
-
-// Route for new organization page
+// show new and process organization form
 router.get('/new-organization', showNewOrganizationForm);
-
-// error-handling routes
-router.get('/test-error', testErrorPageCrtler);
-
-
-// Route to handle new organization form submission
 router.post('/new-organization', organizationValidation, processNewOrganizationForm);
 
-// Route to handle the edit organization form submission
+// show edit and process organization form
+router.get('/edit-organization/:id', showEditOrganizationForm);
 router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
 
+// ===== PROJECTS =====
 
+// show all projects page
+router.get('/projects', showProjectsPage);
+
+// show a specific project page
+router.get('/project/:id', showProjectDetailsPage);
+
+// show and process new project form
+router.get('/new-project', showNewProjectForm);
+router.post('/new-project', projectValidation, processNewProjectForm);
+
+
+// show and process edit project form
+router.get('/edit-project/:id', showEditProjectForm);
+router.post('/edit-project/:id', projectEditValidation, processEditProjectForm);
+
+// Assign categories to project
+//  show and process the form to assign categories to a project
+router.get('/project/:projectId/assign-categories', showAssignCategoriesForm);
+router.post('/project/:projectId/assign-categories', processAssignCategoriesForm);
+
+// ===== CATEGORIES =====
+router.get('/categories', categoriesPageCrtler);
+
+// show specific category details page
+router.get('/category/:id', showCategoryDetails);
+
+// show and process new category form
+router.get('/new-category', showNewCategoryForm);
+router.post('/new-category', categoryValidation, processNewCategoryForm);
+
+// show and process edit category form
+router.get('/edit-category/:id', showEditCategoryForm);
+router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+
+
+// ===== ERROR TEST =====
+router.get('/test-error', testErrorPageCrtler);
 export default router;

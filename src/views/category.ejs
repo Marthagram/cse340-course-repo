@@ -5,15 +5,16 @@
 
    <p><%= categoryDetails.category_name %></p>
     <ol>
-           <% categoryProjects.forEach(project => { %>
+           <% categoryProjects.forEach(categoryProject => { %>
                 <li>
             
-                    <a href="/project/<%= project.project_id %>"><%= project.title %></a>
+                    <a href="/project/<%= categoryProject.project_id %>"><%= categoryProject.title %></a>
                 </li>
             <% }); %>
             
     </ol>
    
+    <a href="/edit-category/<%= categoryDetails.category_id %>" class="other_pages_link">Edit Category</a>
 
 </main>
 

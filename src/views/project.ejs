@@ -1,7 +1,8 @@
 <%- include('partials/header') %>
 
 <main>
-    <h1><%= title %></h1>
+    <h1><%= title %></h1> 
+    <p>Name: <%= service_project.title %></p>
     <p>Description: <%= service_project.description %></p>
     <p>Date: <%= service_project.project_date %></p>
     <p>Location: <%= service_project.location %></p>
@@ -14,10 +15,14 @@
     <ul>
         <% projectCategories.forEach(category => { %>
             <li>
-                project Category: <a href="/category/<%= category.project_id %>"><%= category.category_name %></a>
+                project Category: <a href="/category/<%= category.category_id %>"><%= category.category_name %></a>
             </li>
         <% }); %>
     </ul>
+
+    <a href="/project/<%= service_project.project_id %>/assign-categories" class="other_pages_link">Edit Categories</a>
+   
+    <a href="/edit-project/<%= service_project.project_id %>" class="other_pages_link">Edit Project</a>
    
 </main>
 
