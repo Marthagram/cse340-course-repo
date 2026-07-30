@@ -7,6 +7,7 @@ import { organizationsPage, showOrganizationDetailsPage, showNewOrganizationForm
 import { homePageCrtler } from './controllers/index.js';
 import { categoriesPageCrtler, showCategoryDetails, showAssignCategoriesForm, processAssignCategoriesForm, categoryValidation, showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, processEditCategoryForm } from './controllers/categories.js';
 import {showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, projectEditValidation, showEditProjectForm, processEditProjectForm} from './controllers/projects.js';
+import { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout } from './controllers/users.js';
 import { testErrorPageCrtler } from './controllers/errors.js';
 
 
@@ -72,6 +73,19 @@ router.post('/new-category', categoryValidation, processNewCategoryForm);
 // show and process edit category form
 router.get('/edit-category/:id', showEditCategoryForm);
 router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+
+// ===== USERS =====
+// show and process user registration form
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+
+// =====Login =======
+
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+
+// ===== Logout =====
+router.get('/logout', logout);
 
 
 // ===== ERROR TEST =====

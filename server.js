@@ -16,85 +16,81 @@ const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 // Define the port number the server will listen on
 const PORT = process.env.PORT || 3000;
 
+
+// Define the session secret for express-session to allow remembering logged-in users across requests. This should be a long, random string in production.
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
-  * Configure Express middleware
+    * Configure Express middleware
   */
 
-const SESSION_SECRET = process.env.SESSION_SECRET;
-
-// Set up session management
-app.use(session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 } // Session expires after 1 hour of inactivity
-}));
-
-// Use flash message middleware
-app.use(flash);
-
-// Allow Express to receive and process common POST data
+// 1. Body parsers FIRST - session needs to read cookies from parsed req
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Serve static files from the public directory
+// 2. Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set EJS as the templating engine
-app.set('view engine', 'ejs');
+// 3. SESSION - must be before flash and before any route that uses req.session
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false, // better: don't create session until we store something
+    cookie: { 
+        maxAge: 60 * 60 * 1000, // 1 hour
+        secure: false // set true if using https
+    }
+}));
 
-// Tell Express where to find your templates
+// 4. FLASH - now req.session exists
+app.use(flash);
+
+// 5. Set EJS
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-
-// Middleware to log all incoming requests
+// 6. Locals middleware - now safe to use req.session
 app.use((req, res, next) => {
-    if (NODE_ENV === 'development') {
-        console.log(`${req.method} ${req.url}`);
+    res.locals.isLoggedIn = false;
+    if (req.session && req.session.user) {
+        res.locals.isLoggedIn = true;
     }
-    next(); // Pass control to the next middleware or route
-});
 
-
-// Middleware to make NODE_ENV available to all templates
-app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
 
-// Use the imported router to handle routes
+// 7. Request logger
+app.use((req, res, next) => {
+    if (NODE_ENV === 'development') {
+        console.log(`${req.method} ${req.url}`);
+    }
+    next();
+});
+
+// 8. Routes
 app.use(router);
 
-
-// Catch-all route for 404 errors
+// 9. 404 + Error handler
 app.use((req, res, next) => {
     const err = new Error('Page Not Found');
     err.status = 404;
     next(err);
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
-    // Log error details for debugging
     console.error('Error occurred:', err.message);
     console.error('Stack trace:', err.stack);
-    
-    // Determine status and template
     const status = err.status || 500;
     const template = status === 404 ? '404' : '500';
-    
-    // Prepare data for the template
-    const context = {
+    res.status(status).render(`errors/${template}`, {
         title: status === 404 ? 'Page Not Found' : 'Server Error',
         error: err.message,
-        stack: err.stack
-    };
-    
-    // Render the appropriate error template
-    res.status(status).render(`errors/${template}`, context);
+        stack: NODE_ENV === 'development' ? err.stack : ''
+    });
 });
 
 app.listen(PORT, async () => {
