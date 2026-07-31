@@ -19,10 +19,13 @@
             </li>
         <% }); %>
     </ul>
+    <% if (user && user.role_name === 'admin') { %>
+        <a href="/project/<%= service_project.project_id %>/assign-categories" class="other_pages_link">Edit Categories</a>
+    <% } %>
 
-    <a href="/project/<%= service_project.project_id %>/assign-categories" class="other_pages_link">Edit Categories</a>
-   
+    <% if (user && user.role_name === 'admin') { %>
     <a href="/edit-project/<%= service_project.project_id %>" class="other_pages_link">Edit Project</a>
+   <% } %>
    
 </main>
 

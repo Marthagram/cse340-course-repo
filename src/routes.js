@@ -7,7 +7,7 @@ import { organizationsPage, showOrganizationDetailsPage, showNewOrganizationForm
 import { homePageCrtler } from './controllers/index.js';
 import { categoriesPageCrtler, showCategoryDetails, showAssignCategoriesForm, processAssignCategoriesForm, categoryValidation, showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, processEditCategoryForm } from './controllers/categories.js';
 import {showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, projectEditValidation, showEditProjectForm, processEditProjectForm} from './controllers/projects.js';
-import { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout } from './controllers/users.js';
+import { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout, requireLogin, showDashboard, requireRole } from './controllers/users.js';
 import { testErrorPageCrtler } from './controllers/errors.js';
 
 
@@ -25,54 +25,54 @@ router.get('/', homePageCrtler);
 
 // ===== ORGANIZATIONS =====
 // show all organizations page
-router.get('/organizations', organizationsPage);
+router.get('/organizations', requireLogin, organizationsPage);
 
 // show a specific organization page
 router.get('/organization/:id', showOrganizationDetailsPage);
 
 // show new and process organization form
-router.get('/new-organization', showNewOrganizationForm);
-router.post('/new-organization', organizationValidation, processNewOrganizationForm);
+router.get('/new-organization', requireRole('admin'), showNewOrganizationForm);
+router.post('/new-organization', requireRole('admin'), organizationValidation, processNewOrganizationForm);
 
 // show edit and process organization form
-router.get('/edit-organization/:id', showEditOrganizationForm);
-router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
+router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
+router.post('/edit-organization/:id', requireRole('admin'), organizationValidation, processEditOrganizationForm);
 
 // ===== PROJECTS =====
 
 // show all projects page
-router.get('/projects', showProjectsPage);
+router.get('/projects', requireLogin, showProjectsPage);
 
 // show a specific project page
 router.get('/project/:id', showProjectDetailsPage);
 
 // show and process new project form
-router.get('/new-project', showNewProjectForm);
-router.post('/new-project', projectValidation, processNewProjectForm);
+router.get('/new-project', requireRole('admin'), showNewProjectForm);
+router.post('/new-project', requireRole('admin'), projectValidation, processNewProjectForm);
 
 
 // show and process edit project form
-router.get('/edit-project/:id', showEditProjectForm);
-router.post('/edit-project/:id', projectEditValidation, processEditProjectForm);
+router.get('/edit-project/:id', requireRole('admin'), showEditProjectForm);
+router.post('/edit-project/:id', requireRole('admin'), projectEditValidation, processEditProjectForm);
 
 // Assign categories to project
 //  show and process the form to assign categories to a project
-router.get('/project/:projectId/assign-categories', showAssignCategoriesForm);
-router.post('/project/:projectId/assign-categories', processAssignCategoriesForm);
+router.get('/project/:projectId/assign-categories', requireRole('admin'), showAssignCategoriesForm);
+router.post('/project/:projectId/assign-categories', requireRole('admin'), processAssignCategoriesForm);
 
 // ===== CATEGORIES =====
-router.get('/categories', categoriesPageCrtler);
+router.get('/categories', requireLogin, categoriesPageCrtler);
 
 // show specific category details page
 router.get('/category/:id', showCategoryDetails);
 
 // show and process new category form
-router.get('/new-category', showNewCategoryForm);
-router.post('/new-category', categoryValidation, processNewCategoryForm);
+router.get('/new-category', requireRole('admin'), showNewCategoryForm);
+router.post('/new-category', requireRole('admin'), categoryValidation, processNewCategoryForm);
 
 // show and process edit category form
-router.get('/edit-category/:id', showEditCategoryForm);
-router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+router.get('/edit-category/:id',  requireRole('admin'), showEditCategoryForm);
+router.post('/edit-category/:id', requireRole('admin'), categoryValidation, processEditCategoryForm);
 
 // ===== USERS =====
 // show and process user registration form
@@ -86,6 +86,9 @@ router.post('/login', processLoginForm);
 
 // ===== Logout =====
 router.get('/logout', logout);
+
+// Protected dashboard route
+router.get('/dashboard', requireLogin, showDashboard);
 
 
 // ===== ERROR TEST =====

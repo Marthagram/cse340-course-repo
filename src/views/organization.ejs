@@ -19,8 +19,9 @@
         <% }); %>
         
     </ul>
-    <a href="/edit-organization/<%= organizationDetails.organization_id %>" class="other_pages_link">Edit Organization</a>
-  
+    <% if (user && user.role_name === 'admin') { %>
+        <a href="/edit-organization/<%= organizationDetails.organization_id %>" class="other_pages_link">Edit Organization</a>
+    <% } %>
 </main>
 
 <%- include('partials/footer') %>

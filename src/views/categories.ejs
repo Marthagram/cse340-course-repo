@@ -12,8 +12,9 @@
         <% }); %>
     </ul>
 
+    <% if (user && user.role_name === 'admin') { %>
    <a href="/new-category" class="other_pages_link">Create New Category</a>
-
+    <% } %>
 </main>
 
 <%- include('partials/footer') %>

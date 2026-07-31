@@ -14,8 +14,9 @@
             
     </ol>
    
+    <% if (user && user.role_name === 'admin') { %>
     <a href="/edit-category/<%= categoryDetails.category_id %>" class="other_pages_link">Edit Category</a>
-
+    <% } %>
 </main>
 
 <%- include('partials/footer') %>
