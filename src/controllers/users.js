@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import {createUser, authenticateUser, getAllResgisteredUsers} from '../models/users.js';
+import {createUser, authenticateUser, getAllRegisteredUsers} from '../models/users.js';
   
 const showAllRegisteredUsers = async (req, res) => {
     try {
@@ -114,8 +114,10 @@ const requireRole = (role) => {
         // Check if user's role matches the required role
         if (req.session.user.role_name !== role) {
             req.flash('error', 'You do not have permission to access this page.');
-            return res.redirect('/');
+            return res.redirect('/dashboard');
         }
+
+     
 
         // User has required role, continue
         next();

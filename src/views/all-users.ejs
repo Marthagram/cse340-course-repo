@@ -3,15 +3,15 @@
 <main>
     <h1><%= title %></h1>
 
-    <ul>
-        <% service_projects.forEach(project => { %>
+    <ol>
+        <% users.forEach(user => { %>
         <li>
-           <p>Name: <%= users.name %></p> 
-           <p>email (username): <%= users.email %></p>
-            <p>Role : <%= users.role_name %></p>
+           <p> <strong>Name:</strong> <%= user.name %></p> 
+           <p><strong>Email (username):</strong> <%= user.email %></p>
+            <p><strong>Role:</strong> <%= user.role_name %></p>
         </li>
         <% }) %>
-    </ul>
+    </ol>
 </main>
 
 <%- include('partials/footer') %>

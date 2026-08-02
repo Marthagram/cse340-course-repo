@@ -81,7 +81,7 @@ router.post('/register', processUserRegistrationForm);
 
 // show all registered Users
 
-router.get('all-users', showAllRegisteredUsers)
+router.get('/all-users', requireRole('admin'), showAllRegisteredUsers);
 
 // =====Login =======
 
