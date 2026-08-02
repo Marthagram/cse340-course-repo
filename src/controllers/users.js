@@ -3,12 +3,12 @@ import {createUser, authenticateUser, getAllResgisteredUsers} from '../models/us
   
 const showAllRegisteredUsers = async (req, res) => {
     try {
-        const users = await getAllResgisteredUsers();
+        const users = await getAllRegisteredUsers();
         res.render('all-users', { title: 'All Registered Users', users });
     } catch (error) {
         console.error('Error fetching registered users:', error);
         req.flash('error', 'An error occurred while fetching registered users.');
-        res.redirect('/dashboard');
+        return res.redirect('/dashboard');
     }
 };
 
@@ -125,4 +125,5 @@ const requireRole = (role) => {
 
 
 
-export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout, requireLogin, showDashboard, requireRole };    
+
+export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout, requireLogin, showDashboard, requireRole, showAllRegisteredUsers };    

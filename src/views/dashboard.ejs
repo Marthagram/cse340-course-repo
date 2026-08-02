@@ -7,6 +7,10 @@
     <p>Name: <%= name %></p>
     <p>Username: <%= email %></p>
 
+    <% if (user && user.role_name === 'admin') { %>
+    <a href="/all-users" class = "other_pages_link">Manage Users</a>
+<% } %>
+
 </main>
 
 <%- include('partials/footer') %>

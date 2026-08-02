@@ -47,7 +47,7 @@ const findUserByEmail = async (email) => {
 
 const verifyPassword = async (password, passwordHash) => {
     return bcrypt.compare(password, passwordHash);
-};
+}; 
 
 const authenticateUser = async (email, password) => {
   // 1. Get the user by email

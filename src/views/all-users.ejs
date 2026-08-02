@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+
+    <ul>
+        <% service_projects.forEach(project => { %>
+        <li>
+           <p>Name: <%= users.name %></p> 
+           <p>email (username): <%= users.email %></p>
+            <p>Role : <%= users.role_name %></p>
+        </li>
+        <% }) %>
+    </ul>
+</main>
+
+<%- include('partials/footer') %>
