@@ -25,13 +25,13 @@
         </ul>
     </nav>
 
- <% const messages = flash(); %>
+<% const messages = flash(); %>
+<% if (Object.keys(messages).length) { %>
+  <div class="flash-messages">
     <% Object.keys(messages).forEach(type => { %>
-        <% if (messages[type].length > 0) { %>
-            
-                <% messages[type].forEach(msg => { %>
-                    <%= msg %>
-                <% }); %>
-            
-        <% } %>
-    <% }); %>   
+        <% messages[type].forEach(msg => { %>
+            <p class="<%= type %>"><%= msg %></p>
+        <% }); %>
+    <% }); %>
+  </div>
+<% } %>  
