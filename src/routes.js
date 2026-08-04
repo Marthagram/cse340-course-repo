@@ -25,7 +25,7 @@ router.get('/', homePageCrtler);
 
 // ===== ORGANIZATIONS =====
 // show all organizations page
-router.get('/organizations', requireLogin, organizationsPage);
+router.get('/organizations', organizationsPage);
 
 // show a specific organization page
 router.get('/organization/:id', showOrganizationDetailsPage);
@@ -41,7 +41,7 @@ router.post('/edit-organization/:id', requireRole('admin'), organizationValidati
 // ===== PROJECTS =====
 
 // show all projects page
-router.get('/projects', requireLogin, showProjectsPage);
+router.get('/projects', showProjectsPage);
 
 // show a specific project page
 router.get('/project/:id', showProjectDetailsPage);
@@ -61,7 +61,7 @@ router.get('/project/:projectId/assign-categories', requireRole('admin'), showAs
 router.post('/project/:projectId/assign-categories', requireRole('admin'), processAssignCategoriesForm);
 
 // ===== CATEGORIES =====
-router.get('/categories', requireLogin, categoriesPageCrtler);
+router.get('/categories', categoriesPageCrtler);
 
 // show specific category details page
 router.get('/category/:id', showCategoryDetails);
