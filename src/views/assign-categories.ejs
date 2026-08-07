@@ -5,6 +5,8 @@
     <h2>Assign Categories</h2>
  <form action="/project/<%= projectDetails.project_id %>/assign-categories" method="POST">
 
+
+
     <div class="form-group">
       <% categories.forEach(category => { %>
         <div class = "assignCategory">
@@ -17,6 +19,19 @@
             value="<%= category.category_id %>"
             <%= projectCategories.some(ac => ac.category_id === category.category_id) ? 'checked' : '' %>
           />
+
+              <!-- This pattern is used when an entity (like a project) has a many-to-many relationship with another entity (like categories).
+
+    The process is:
+
+          Retrieve all available categories.
+          Retrieve the categories currently assigned to the project.
+          Compare the two lists.
+          Check the boxes that already belong to the project.
+          When the user submits:
+          Newly checked boxes become new relationships.
+          Unchecked boxes are removed from the relationships.
+          Boxes that remain checked stay associated -->
         
         </div>
       <% }); %>

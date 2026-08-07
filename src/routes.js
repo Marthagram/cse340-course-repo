@@ -7,7 +7,7 @@ import { organizationsPage, showOrganizationDetailsPage, showNewOrganizationForm
 import { homePageCrtler } from './controllers/index.js';
 import { categoriesPageCrtler, showCategoryDetails, showAssignCategoriesForm, processAssignCategoriesForm, categoryValidation, showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, processEditCategoryForm } from './controllers/categories.js';
 import {showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, projectEditValidation, showEditProjectForm, processEditProjectForm} from './controllers/projects.js';
-import { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout, requireLogin, showDashboard, requireRole, showAllRegisteredUsers } from './controllers/users.js';
+import { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout, requireLogin, showDashboard, requireRole, showAllRegisteredUsers, processVolunteerAssignment, processRemoveVolunteerAssignmentInDashboard, processRemoveVolunteerAssignmentInProjectPage } from './controllers/users.js';
 import { testErrorPageCrtler } from './controllers/errors.js';
 
 
@@ -92,6 +92,14 @@ router.post('/login', processLoginForm);
 
 // ===== Logout =====
 router.get('/logout', logout);
+
+// ===== Volunteer Assignment =====
+router.get('/project/:projectId/volunteer', requireLogin, processVolunteerAssignment);
+
+
+// ====== Remove Volunteer Assignment =====
+router.post('/project/:projectId/remove-volunteer-project', requireLogin, processRemoveVolunteerAssignmentInProjectPage);
+router.post('/project/:projectId/remove-volunteer-dashboard', requireLogin, processRemoveVolunteerAssignmentInDashboard);
 
 // Protected dashboard route
 router.get('/dashboard', requireLogin, showDashboard);

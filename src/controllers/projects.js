@@ -5,6 +5,7 @@ import { body, validationResult } from 'express-validator';
 import {getUpComingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import {getProjectCategories } from '../models/categories.js';
 import {getAllOrganizations } from '../models/organizations.js';
+import { checkIfUserIsVolunteer } from '../models/users.js';
 
 
 const projectValidation = [
@@ -45,15 +46,27 @@ const showProjectsPage= async (req, res) => {
     res.render('projects', { title, service_projects }); // always sends something
 };
 
+// because the projectdetails page check to see if a user is a volunteer, we need to check if the user is logged in and if they are a volunteer for that project. If they are, we will set a variable to true and pass it to the view. If they are not logged in, we will set the variable to false and pass it to the view. If they are logged in but not a volunteer, we will also set the variable to false and pass it to the view. The view will then use this variable to determine whether or not to show the "Volunteer" button.
+
 const showProjectDetailsPage = async(req, res) =>{
     const projectId = req.params.id;
     const title = 'Specific Project'
+ 
+    let isVolunteer = false; // Default value
+
     const service_project = await getProjectDetails(projectId);
     const projectCategories = await getProjectCategories(projectId);
-    res.render('project', {title, service_project, projectCategories})
+
+       if (req.session.user) {
+        const userId = req.session.user.user_id;
+        isVolunteer = await checkIfUserIsVolunteer(projectId, userId);
+    }
+    res.render('project', {title, service_project, projectCategories, isVolunteer})
 
     
 }
+
+
 
 const showNewProjectForm = async (req, res) => {
     const title = 'Create New Project';

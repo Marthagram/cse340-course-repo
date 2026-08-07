@@ -202,6 +202,16 @@ label, input, textarea{
     border-color: #bee5eb;
 }
 
+/* --- Dashboard Project Card --- */
+.dashboard-project-card, 
+.dashboard-user-info {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+
 /* --- Footer --- */
 footer {
   background-color: #e2e8f0; /* Light gray */

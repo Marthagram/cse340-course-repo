@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS roles CASCADE;
 DROP TABLE IF EXISTS organization CASCADE;
+DROP TABLE IF EXISTS volunteer CASCADE;
 
 -- 2. CREATE TABLES
 CREATE TABLE organization (
@@ -62,6 +63,20 @@ CREATE TABLE project_category (
         ON DELETE CASCADE
 );
 
+CREATE TABLE volunteer (
+    user_id INT NOT NULL,
+    project_id INT NOT NULL,
+    PRIMARY KEY (project_id, user_id), 
+    CONSTRAINT fk_service_project
+        FOREIGN KEY (project_id) 
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_users
+        FOREIGN KEY (user_id) 
+        REFERENCES users(user_id)
+        ON DELETE CASCADE
+);
+
 -- 3. INSERT DATA
 INSERT INTO organization (name, description, contact_email, logo_filename) VALUES
 ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
@@ -109,6 +124,9 @@ DELETE FROM users WHERE email = 'test@example.com';
 
 
 
+
+
+
 -- 4. VERIFY
 
 -- Verify the update by listing all users and their roles
@@ -120,3 +138,5 @@ SELECT * FROM roles;
 SELECT * FROM users;
 
 SELECT count(*) FROM organization; 
+
+

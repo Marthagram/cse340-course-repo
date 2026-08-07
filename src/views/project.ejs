@@ -24,9 +24,29 @@
     <% } %>
 
     <% if (user && user.role_name === 'admin') { %>
-    <a href="/edit-project/<%= service_project.project_id %>" class="other_pages_link">Edit Project</a>
-   <% } %>
-   
+        <a href="/edit-project/<%= service_project.project_id %>" class="other_pages_link">Edit Project</a>
+    <% } %>
+
+
+
+    
+<% if (user && user.role_name !== 'admin') { %>
+    <% if (isLoggedIn && !isVolunteer) { %>
+
+        <a href="/project/<%= service_project.project_id %>/volunteer"
+        class="other_pages_link">
+            Volunteer for this project
+        </a>
+
+    <% } else if (isLoggedIn && isVolunteer) { %>
+
+            <a href="/project/<%= service_project.project_id %>/volunteer" class="other_pages_link">You are volunteering for this project.</a>
+
+        <form action="/project/<%= service_project.project_id %>/remove-volunteer-project" method="POST">
+        <button>Remove me as a volunteer</button>
+        </form>
+    <% } %>  
+<% } %>  
 </main>
 
 <%- include('partials/footer') %>

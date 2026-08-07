@@ -2,6 +2,9 @@
 <main>
     <h1><%= title %></h1>
 
+    <!-- When rendering a fresh, empty "Create" form, you typically do not 
+     need value attributes because the fields start empty for the user to type in. -->
+
  <form action="/new-organization" method="POST">
     <div class="form-group">
       <label for="name">Organization Name</label>

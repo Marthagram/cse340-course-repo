@@ -90,4 +90,56 @@ const getAllRegisteredUsers = async () => {
     return result.rows;
 };  
 
-export {createUser, authenticateUser, getAllRegisteredUsers};
+const addVolunteersToProject = async (project_id, user_id) => {
+ const query = `INSERT INTO public.volunteer (project_id, user_id) 
+   VALUES ($1, $2)
+   ON CONFLICT (project_id, user_id) DO NOTHING
+   RETURNING *` // <-- add this
+  const queryParams = [project_id, user_id]
+
+const result = await db.query(query, queryParams)
+
+if (result.rows.length === 0) {
+  console.log("Already a volunteer")
+} else {
+  console.log("New volunteer added")
+}
+
+}
+
+const checkIfUserIsVolunteer = async (projectId, userId) => {
+    const query = `
+        SELECT * FROM public.volunteer
+        WHERE project_id = $1 AND user_id = $2
+    `;
+    const queryParams = [projectId, userId];
+
+    const result = await db.query(query, queryParams);
+    return result.rows.length > 0;
+};
+
+const removeVolunteersFromProject = async (projectId, userId) => {
+    const query = `
+        DELETE FROM public.volunteer
+        WHERE project_id = $1 AND user_id = $2
+    `;
+    const queryParams = [projectId, userId];
+
+    await db.query(query, queryParams);
+};
+
+const getProjectListsFromVolunteer = async (userId) => {
+    const query = `
+        SELECT  p.project_id, p.title, p.description, p.location, p.project_date
+        FROM public.service_project p
+        JOIN public.volunteer v ON p.project_id = v.project_id
+        JOIN public.users u ON v.user_id = u.user_id
+        WHERE v.user_id = $1
+    `;
+    const queryParams = [userId];
+
+    const result = await db.query(query, queryParams);
+    return result.rows;
+};
+
+export {createUser, authenticateUser, getAllRegisteredUsers, addVolunteersToProject, removeVolunteersFromProject, getProjectListsFromVolunteer, checkIfUserIsVolunteer};

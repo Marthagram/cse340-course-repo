@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
-import {createUser, authenticateUser, getAllRegisteredUsers} from '../models/users.js';
+import {createUser, authenticateUser, getAllRegisteredUsers, addVolunteersToProject, removeVolunteersFromProject, getProjectListsFromVolunteer} from '../models/users.js';
+
   
 const showAllRegisteredUsers = async (req, res) => {
     try {
@@ -11,6 +12,43 @@ const showAllRegisteredUsers = async (req, res) => {
         return res.redirect('/dashboard');
     }
 };
+
+// For GET requests, do not use req.body. Use req.params for values in the URL, 
+// req.query for values after a question mark in the URL, and req dot session for
+//  logged-in user info
+// req.body is used for POST requests to get form data submitted by the user.
+
+const processVolunteerAssignment = async (req, res) => {
+   const projectId = req.params.projectId;
+   
+    try 
+{
+        const userId = req.session.user.user_id; // Assuming user_id is stored in session
+
+        await addVolunteersToProject(projectId, userId);
+        req.flash('success', 'Volunteer assignment successful!');
+        res.redirect(`/project/${projectId}`);
+    }catch (error) {
+        console.error('Error assigning volunteer:', error);
+        req.flash('error', 'An error occurred while assigning volunteer.');
+        res.redirect('/project/' + projectId);
+    }
+};
+ const processRemoveVolunteerAssignmentInProjectPage = async (req, res) => {
+    const projectId = req.params.projectId;
+    const userId = req.session.user.user_id; // Assuming user_id is stored in session
+
+    try {
+        await removeVolunteersFromProject(projectId, userId);
+        req.flash('success', 'You have been removed from the project.');
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        console.error('Error removing volunteer:', error);
+        req.flash('error', 'An error occurred while removing volunteer.');
+        res.redirect(`/project/${projectId}`);
+    }
+ }
+
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'User Registration' });
@@ -86,14 +124,46 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-const showDashboard = (req, res) => {
+const showDashboard = async (req, res) => {
     const user = req.session.user;
+    const userId = req.session.user.user_id; // Assuming user_id is stored in session
+    const projects = await getProjectListsFromVolunteer(userId);
     res.render('dashboard', { 
         title: 'My Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        projectTitle: 'My Volunteered Projects',
+        projects
+        
     });
 };
+
+const processRemoveVolunteerAssignmentInDashboard = async (req, res) => {
+    const projectId = req.params.projectId; 
+    const { status } = req.body; // this comes from <select name="status">
+    const userId = req.session.user.user_id;
+    
+    try {
+
+        const userId = req.session.user.user_id;
+        // Only remove if they selected YES
+        if (status === 'yes') {
+            await removeVolunteersFromProject(projectId, userId);
+            req.flash('success', 'You have been removed from the project.');
+        } else {
+            req.flash('info', 'No changes made.');
+        }
+
+        res.redirect('/dashboard'); // send them back to dashboard, not project page
+        
+    } catch (error) {
+        console.error('Error removing volunteer:', error);
+        req.flash('error', 'An error occurred while removing volunteer.');
+        res.redirect('/dashboard');
+    }
+}
+
+
 
 
 /**
@@ -128,4 +198,4 @@ const requireRole = (role) => {
 
 
 
-export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout, requireLogin, showDashboard, requireRole, showAllRegisteredUsers };    
+export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, logout, requireLogin, showDashboard, requireRole, showAllRegisteredUsers, processVolunteerAssignment, processRemoveVolunteerAssignmentInDashboard, processRemoveVolunteerAssignmentInProjectPage };   

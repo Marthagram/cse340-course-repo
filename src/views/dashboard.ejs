@@ -3,13 +3,37 @@
 <main>
     <h1><%= title %></h1>
 
-    <h2>Dashboard</h2>
     <p>Name: <%= name %></p>
     <p>Username: <%= email %></p>
 
+    
     <% if (user && user.role_name === 'admin') { %>
-    <a href="/all-users" class = "other_pages_link">Manage Users</a>
-<% } %>
+        <a href="/all-users" class="other_pages_link">Manage Users</a>
+    <% } else { %>
+
+
+    <h2><%= projectTitle %></h2>
+
+    <% if (projects.length === 0) { %>
+        <p>You haven't volunteered for any projects yet.</p>
+    <% } else { %>
+        <% projects.forEach(project => { %>
+            <div class="dashboard-project-card">
+                <h3><%= project.title %></h3>
+                
+
+                <form action="/project/<%= project.project_id %>/remove-volunteer-dashboard" method="POST">
+                    <label for="status-<%= project.project_id %>">Do you want to remove yourself as a volunteer?</label>
+                    <select name="status" id="status-<%= project.project_id %>" class="status-dropdown">
+                        <option value="no" selected>No</option>
+                        <option value="yes">YES</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        <% }) %>
+    <% } %>
+ <% } %>
 
 </main>
 
